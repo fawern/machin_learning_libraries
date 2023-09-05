@@ -23,8 +23,6 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import roc_auc_score
 
-from lime import lime_tabular
-
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -124,7 +122,7 @@ class classification:
             ]
         )
         #! RandomForestClassifier
-        model_rfc = RandomForestClassifier()
+        model_rfc = RandomForestClassifier(random_state=42)
 
         model_rfc.fit(x_train, y_train)
         y_pred_rfc = model_rfc.predict(x_test)
