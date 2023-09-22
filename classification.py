@@ -28,7 +28,21 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-class classification:
+class Classification:
+
+    def __init__(self, model, train_data, test_data, train_target, test_target):
+        self.model = model
+        self.train_data = train_data
+        self.test_data = test_data
+        self.train_target = train_target
+        self.test_target = test_target
+
+    def fit_predict(self):
+        self.model.fit(self.train_data, self.train_target)
+        self.y_pred = self.model.predict(self.test_data)
+
+        return accuracy_score(self.test_target, self.y_pred)
+
     def classification_models(x_train, x_test, y_train, y_test):
         models_output_list = []
 

@@ -27,7 +27,19 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-class regression:
+class Regression:
+    
+    def __init__(self, model, train_data, test_data, train_target, test_target):    
+        self.model = model
+        self.train_data = train_data
+        self.test_data = test_data
+        self.train_target = train_target
+        self.test_target = test_target
+    
+    def fit_predict(self):
+        self.model.fit(self.train_data, self.train_target)
+        return self.model.score(self.test_data, self.test_target)
+        
     def regression_models(x_train, x_test, y_train, y_test):
         models_output_list = []
 
