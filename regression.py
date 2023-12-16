@@ -22,11 +22,6 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import r2_score
 
-import warnings
-
-warnings.filterwarnings("ignore")
-
-
 class Regression:
     
     def __init__(self, model, train_data, test_data, train_target, test_target):    
