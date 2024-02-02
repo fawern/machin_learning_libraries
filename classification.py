@@ -10,10 +10,20 @@ from lightgbm import LGBMClassifier
 from catboost import CatBoostClassifier
 from sklearn.naive_bayes import GaussianNB, MultinomialNB, BernoulliNB
 from sklearn.neural_network import MLPClassifier
+<<<<<<< HEAD
 from sklearn.metrics import accuracy_score, precision_score, f1_score, recall_score, roc_auc_score
 import warnings
 
 warnings.filterwarnings("ignore")
+=======
+
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import f1_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import roc_auc_score
+
+>>>>>>> 4c51953a56b85cdd40f38453d2906729be7143fd
 
 class Classification:
 
