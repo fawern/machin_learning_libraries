@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
@@ -35,7 +34,7 @@ class Classification:
         self.model.fit(self.train_data, self.train_target)
         self.y_pred = self.model.predict(self.test_data)
 
-        return accuracy_score(self.test_target, self.y_pred)
+        return self.y_pred, accuracy_score(self.test_target, self.y_pred)
 
 
 def classification_models(x_train, x_test, y_train, y_test):
@@ -58,11 +57,13 @@ def classification_models(x_train, x_test, y_train, y_test):
 
     for model in models:
         clf = Classification(model, x_train, x_test, y_train, y_test)
-        acc_score = clf.fit_predict()
-        prec_score = precision_score(y_test, clf.y_pred)
+        predictions, _ = clf.fit_predict()
+
+        acc_score = accuracy_score(y_test, predictions)
+        prec_score = precision_score(y_test, predictions)
         f1 = f1_score(y_test, clf.y_pred)
-        recall = recall_score(y_test, clf.y_pred)
-        roc_auc = roc_auc_score(y_test, clf.y_pred)
+        recall = recall_score(y_test, predictions)
+        roc_auc = roc_auc_score(y_test, predictions)
 
         models_output_list.append({
             'Model': type(model).__name__,

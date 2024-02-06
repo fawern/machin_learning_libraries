@@ -19,12 +19,20 @@ def upload_button_click():
     else:
         messagebox.showinfo(title='Not found error', message="No file selected")
 
-def train_button_click():
+def train_button_click(selected_model):
+    if selected_model == 'Classification':
+        pass
+    
+    elif selected_model == 'Regression':
+        pass
+
+    else:
+        messagebox.showinfo(title='Not found error', message="Model type not selected")
     return None
 
 def on_close_click():
     root.destroy()
-      
+
 def library_ui():
     global label
     global root 
@@ -71,7 +79,7 @@ def library_ui():
     train_button = tk.Button(
         root,
         text='Train Models',
-        command=train_button_click,
+        command=lambda : train_button_click(model_type.get()),
         background=colour2, # Background color when not hovered
         foreground=colour4, # Text color
         activebackground=colour3, # Background color when hovered/clicked

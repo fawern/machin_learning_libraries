@@ -1,5 +1,6 @@
-import numpy as np
 import pandas as pd
+from sklearn.model_selection import train_test_split 
+
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
@@ -13,19 +14,25 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
 class Regression:
 
-    def __init__(self, model, train_data, test_data, train_target, test_target):
+    def __init__(self, model, data, y_col, test_size):
         self.model = model
-        self.train_data = train_data
-        self.test_data = test_data
-        self.train_target = train_target
-        self.test_target = test_target
+        self.data = data
+        self.y_col = y_col 
+        self.test_size = test_size
+
+        X = self.data.drop(columns=[self.y_col])
+        y = self.data[y_col]
+
+        self.train_data , self.test_data, self.train_target, self.test_target = train_test_split(X, y, test_size=self.test_size, random_state=13)
 
     def fit_predict(self):
         self.model.fit(self.train_data, self.train_target)
-        return self.model.score(self.test_data, self.test_target)
+        self.y_pred = self.model.predict(self.test_data)
+        
+        return self.y_pred, self.model.score(self.test_data, self.test_target)
 
 
-def regression_models(x_train, x_test, y_train, y_test):
+def regression_models(data, y_col, test_size):
     models = [
         LinearRegression(),
         Ridge(),
@@ -47,15 +54,18 @@ def regression_models(x_train, x_test, y_train, y_test):
     models_output_list = []
 
     for model in models:
-        reg = Regression(model, x_train, x_test, y_train, y_test)
-        reg_score = reg.fit_predict()
-        y_pred = model.predict(x_test)
+        reg = Regression(model, data, y_col, test_size)
+        predictions, _ = reg.fit_predict()
+
+        rs = r2_score(reg.test_target, predictions)
+        mse = mean_squared_error(reg.test_target, predictions)
+        mae = mean_absolute_error(reg.test_target, predictions)
 
         models_output_list.append({
             'Model': type(model).__name__,
-            'r2_score': r2_score(y_test, y_pred),
-            'mean_squared_error': mean_squared_error(y_test, y_pred),
-            'mean_absolute_error': mean_absolute_error(y_test, y_pred),
+            'r2_score': rs,
+            'mean_squared_error': mse,
+            'mean_absolute_error': mae,
         })
 
     models_output_df = pd.DataFrame(models_output_list)
