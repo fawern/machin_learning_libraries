@@ -11,25 +11,35 @@ import classification as cls_
 import regression
 
 file_path = ''
+df_columns = []
+
 def upload_button_click():
     global file_path
+    global df_columns
 
     file_path = filedialog.askopenfilename(title='Select a CSV file !!!')
+
     if file_path:
         if file_path.split('.')[-1] != 'csv':
             messagebox.showinfo(title='File type error', message="Please select a CSV file")
+            return
+
+        df_columns = list(pd.read_csv(file_path).columns)
+        target_combobox.configure(values=df_columns)
     else:
         messagebox.showinfo(title='Not found error', message="No file selected")
+
 
 
 models_output_list = []
 def train_button_click(selected_model):
     global models_output_list
-    
+    target_col = target_combobox.get()
     if selected_model == 'Classification':
+        print(target_col)
         df = pd.read_csv(file_path)
-        X = df.iloc[:, :-1].values
-        y = df.iloc[:, -1]
+        X = df.drop(columns=[target_col]).values
+        y = df[target_col]
 
         y = y.map({'Onaylandı': 1, 'Reddedildi': 0})
 
@@ -38,8 +48,6 @@ def train_button_click(selected_model):
         )       
 
         models_output_list = cls_.classification_models(X_train, X_test, y_train, y_test)[0]
-
-        print(models_output_list)
 
         show_model_output(models_output_list)
 
@@ -68,14 +76,24 @@ def show_model_output(output_df):
 # def change_theme():
 #     customtkinter.set_appearance_mode("light")
 
+
+def on_clear_click():
+    file_path = ''
+    target_combobox.configure(values=[''])
+    combobox.configure(values=[''])
+
 def on_close_click():
     root.destroy()
 
 def library_ui():
     global label
-    global root 
+    global root
     global model_type
     global colour1
+    global left_container
+    global target_combobox
+    global output_col_var
+    global combobox
 
     # colour1 = '#292929' # Background color
     colour1 = '#161616'
@@ -84,12 +102,12 @@ def library_ui():
     colour4 = 'black' # Text color
 
     root = customtkinter.CTk()
-    
+
     root.title("Machine Learnings Library")
     root.resizable(True, True)
     root.geometry("1400x600")  # Width x Height
     root.configure(background=colour1)
-    
+
     left_container = customtkinter.CTkFrame(root, corner_radius=15)
     left_container.place(relx=0.025, rely=0.05, relwidth=0.25, relheight=0.9)
 
@@ -111,16 +129,26 @@ def library_ui():
         height=1,
         border=0,
         cursor='hand1',
-        font=('Arial', 16, 'bold'),
+        font=('Arial', 16, 'bold')
     )
     upload_button.pack(pady=10)
 
-    combobox_var = customtkinter.StringVar(value="Machine Learning Type")
+    output_col_var = customtkinter.StringVar(value="Target Column")
+    target_combobox = customtkinter.CTkComboBox(
+        master=left_container,
+        width=170,
+        variable=output_col_var,
+        values=['']
+    )
+    target_combobox.pack(padx=20, pady=10)
+
+    model_type_var = customtkinter.StringVar(value="Machine Learning Type")
+
     combobox = customtkinter.CTkComboBox(
         master=left_container,
         width=170,     
         values=['Classification', 'Regression'],
-        variable=combobox_var
+        variable=model_type_var
     )
     combobox.pack(padx=20, pady=10)
 
@@ -143,10 +171,11 @@ def library_ui():
     )
     train_button.pack(pady=10)
 
-    close_button = tk.Button(
+
+    clear_button = tk.Button(
         left_container,
-        text='Close',
-        command=on_close_click,
+        text='Clear',
+        command=on_clear_click,
         background=colour3,
         foreground=colour2,
         activebackground=colour3,
@@ -160,8 +189,27 @@ def library_ui():
         cursor='hand1',
         font=('Arial', 16, 'bold')
     )
-    close_button.pack(side='bottom', pady=50)
+    clear_button.pack(pady=50)
 
+
+    close_button = tk.Button(
+        left_container,
+        text='Close',
+        command=on_close_click,
+        background='#a4072c', # gozuken renk
+        foreground='white',
+        activebackground='#94042b', # tiklayinca 
+        activeforeground=colour4,
+        highlightthickness=2,
+        highlightbackground=colour2,
+        highlightcolor='WHITE',
+        width=8,
+        height=1,
+        border=0,
+        cursor='hand1',
+        font=('Arial', 16, 'bold')
+    )
+    close_button.pack(side='bottom', pady=50)
 
     root.mainloop()
     
