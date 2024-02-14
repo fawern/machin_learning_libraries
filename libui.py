@@ -10,7 +10,6 @@ from sklearn.model_selection import train_test_split
 import classification as cls_
 import regression
 
-file_path = ''
 df_columns = []
 
 def upload_button_click():
@@ -35,13 +34,11 @@ models_output_list = []
 def train_button_click(selected_model):
     global models_output_list
     target_col = target_combobox.get()
+
     if selected_model == 'Classification':
-        print(target_col)
         df = pd.read_csv(file_path)
         X = df.drop(columns=[target_col]).values
         y = df[target_col]
-
-        y = y.map({'Onaylandı': 1, 'Reddedildi': 0})
 
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=.2, random_state=42
@@ -49,17 +46,30 @@ def train_button_click(selected_model):
 
         models_output_list = cls_.classification_models(X_train, X_test, y_train, y_test)[0]
 
-        show_model_output(models_output_list)
+        show_model_output()
 
     elif selected_model == 'Regression':
-        print(selected_model)
+        df = pd.read_csv(file_path)
+        X = df.drop(columns=[target_col]).values
+        y = df[target_col]
+
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=.2, random_state=42
+        )       
+
+        models_output_list = regression.regression_models(X_train, X_test, y_train, y_test)[0]
+
+        show_model_output()
 
     else:
         messagebox.showinfo(title='Not found error', message="Model type not selected")
 
     return None
 
-def show_model_output(output_df):
+
+def show_model_output():
+    global table
+
     value = [list(models_output_list.columns)]
 
     for row in models_output_list.values:
@@ -69,7 +79,7 @@ def show_model_output(output_df):
     table_container.place(relx=0.3, rely=0.05, relwidth=0.68, relheight=0.9)
 
     table = CTkTable.CTkTable(
-        master=table_container, row=len(output_df) + 1, column=len(output_df.columns), 
+        master=table_container, row=len(models_output_list) + 1, column=len(models_output_list.columns), 
         values=value, header_color="#204261")
     table.pack(expand=True, fill="both", padx=20, pady=20)
 
@@ -78,6 +88,14 @@ def show_model_output(output_df):
 
 
 def on_clear_click():
+    global file_path
+    # Output df table
+    table_container = customtkinter.CTkFrame(root, corner_radius=15)
+    table_container.place(relx=0.3, rely=0.05, relwidth=0.68, relheight=0.9)
+
+    table = CTkTable.CTkTable(master=table_container)
+    # ----
+
     file_path = ''
     target_combobox.configure(values=[''])
     combobox.configure(values=[''])

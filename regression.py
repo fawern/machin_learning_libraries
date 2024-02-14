@@ -13,17 +13,12 @@ import lightgbm as lgbm
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
 class Regression:
-
-    def __init__(self, model, data, y_col, test_size):
+    def __init__(self, model, train_data, test_data, train_target, test_target):
         self.model = model
-        self.data = data
-        self.y_col = y_col 
-        self.test_size = test_size
-
-        X = self.data.drop(columns=[self.y_col])
-        y = self.data[y_col]
-
-        self.train_data , self.test_data, self.train_target, self.test_target = train_test_split(X, y, test_size=self.test_size, random_state=13)
+        self.train_data = train_data
+        self.test_data = test_data
+        self.train_target = train_target
+        self.test_target = test_target
 
     def fit_predict(self):
         self.model.fit(self.train_data, self.train_target)
@@ -32,7 +27,7 @@ class Regression:
         return self.y_pred, self.model.score(self.test_data, self.test_target)
 
 
-def regression_models(data, y_col, test_size):
+def regression_models(x_train, x_test, y_train, y_test):
     models = [
         LinearRegression(),
         Ridge(),
@@ -54,7 +49,7 @@ def regression_models(data, y_col, test_size):
     models_output_list = []
 
     for model in models:
-        reg = Regression(model, data, y_col, test_size)
+        reg = Regression(model, x_train, x_test, y_train, y_test)
         predictions, _ = reg.fit_predict()
 
         rs = r2_score(reg.test_target, predictions)
