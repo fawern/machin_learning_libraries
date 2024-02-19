@@ -73,11 +73,17 @@ class Library_UI:
 
         return None
 
+    def truncate_number(number):
+        number *= 1000
+        number = int(number)
+        return number / 1000
+
     def show_model_output(self):
         value = [list(self.models_output_list.columns)]
-
+        
         for row in self.models_output_list.values:
-            value.append(list(row))
+            row[1:] = list(map(truncate_number, row[1:]))
+            value.append(row)
 
         table_container = customtkinter.CTkFrame(self.root, corner_radius=15)
         table_container.place(relx=0.3, rely=0.05, relwidth=0.68, relheight=0.9)
@@ -178,4 +184,4 @@ class Library_UI:
 
         self.root.mainloop()
 
-Library_GUI().library_ui()
+Library_UI().library_ui()
