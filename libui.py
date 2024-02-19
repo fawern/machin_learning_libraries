@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 import classification as cls_
 import regression
 
-class Library_GUI:
+class Library_UI:
     def __init__(self):
         self.colour1 = '#161616'
         self.colour2 = '#05d7ff' # Default button background color
