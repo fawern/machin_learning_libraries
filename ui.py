@@ -3,6 +3,7 @@ import customtkinter
 from tkinter import filedialog, messagebox
 import CTkTable
 
+import numpy as np
 import pandas as pd 
 from sklearn.model_selection import train_test_split
 import classification as cls_
@@ -73,25 +74,33 @@ class Library_UI:
 
         return None
 
+    @staticmethod
     def truncate_number(number):
-        number *= 1000
+        number *= 10000
         number = int(number)
-        return number / 1000
+        return number / 10000
 
     def show_model_output(self):
-        value = [[truncate_number(n) for n in numbers] for numbers in self.models_output_df[:, 1:]]
-        value = [list(self.models_output_df.columns)]
-        # for row in self.models_output_df.values:
-        #     # row[1:] = list(map(self.truncate_number, row[1:]))
-        #     # row[1:] = [[truncate_number(n) for n in numbers] for numbers in row[1:]]
-        #     value.append(row)
+        values = []
+
+        values.append(self.models_output_df.columns)
+        
+        truncated_numbers = np.zeros((self.models_output_df.values.shape[0], self.models_output_df.values.shape[1]))
+
+        for i in range(self.models_output_df.values.shape[0]):
+            for j in range(1, self.models_output_df.values.shape[1]):
+                truncated_numbers[i][j] = self.truncate_number(self.models_output_df.values[i][j])
+
+        values.extend(truncated_numbers)
+        num_rows = len(self.models_output_df) + 1
+        num_columns = len(self.models_output_df.columns)
 
         table_container = customtkinter.CTkFrame(self.root, corner_radius=15)
         table_container.place(relx=0.3, rely=0.05, relwidth=0.68, relheight=0.9)
 
         table = CTkTable.CTkTable(
-            master=table_container, row=len(self.models_output_df) + 1, column=len(self.models_output_df.columns), 
-            values=value, header_color="#204261")
+            master=table_container, row=num_rows, column=num_columns, 
+            values=values, header_color="#204261")
         table.pack(expand=True, fill="both", padx=20, pady=20)
 
     def clean_button_click(self):
@@ -167,7 +176,6 @@ class Library_UI:
             font = ('Arial', 16, 'bold')
         )
         train_button.pack(pady=10)
-
 
         clean_button = tk.Button(
             self.left_container,
