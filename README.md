@@ -21,24 +21,28 @@ pip install -r requirements.txt
 3. Run the app
 
 ```bash
-streamlit run app.py
+python app.py
 ```
 
-When you run the app, you will see the following screen.
+#### When you run the app, you will see the following screen.
+
 ![before](./imgs/img_1.png)
 
 4. Upload the dataset.
-   Click the UPLOAD .csv button and upload the dataset as shown below.
-   ![before](./imgs/img_2.png)
+
+   - Click the UPLOAD .csv button and upload the dataset as shown below.
+     ![before](./imgs/img_2.png)
 
 5. Select the target column
-   Choose the target column from the dropdown list as shown below.
-   ![before](./imgs/img_3.png)
+
+   - Choose the target column from the dropdown list as shown below.
+     ![before](./imgs/img_3.png)
 
 6. Select the model
-   Choose the model from the dropdown list as shown below.
-   ![before](./imgs/img_4.png)
+
+   - Choose the model from the dropdown list as shown below.
+     ![before](./imgs/img_4.png)
 
 7. Click the Train button
-   Click the Train button to train the model and see the results as shown below.
-   ![before](./imgs/img_5.png)
+   - Click the Train button to train the model and see the results as shown below.
+     ![before](./imgs/img_5.png)
