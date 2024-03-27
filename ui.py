@@ -9,7 +9,7 @@ from sklearn.model_selection import train_test_split
 import classification as cls_
 import regression
 
-class Library_UI:
+class MlUI:
     def __init__(self):
         self.colour1 = '#161616'
         self.colour2 = '#05d7ff' # Default button background color
@@ -217,5 +217,3 @@ class Library_UI:
         close_button.pack(side='bottom', pady=50)
 
         self.root.mainloop()
-
-Library_UI().library_ui()
