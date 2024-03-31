@@ -84,10 +84,11 @@ class MlUI:
         values = []
 
         values.append(self.models_output_df.columns)
-        
-        truncated_numbers = np.zeros((self.models_output_df.values.shape[0], self.models_output_df.values.shape[1]))
+        truncated_numbers = np.zeros((self.models_output_df.values.shape[0], self.models_output_df.values.shape[1]), dtype=object)
 
+        truncated_numbers = np.zeros((self.models_output_df.values.shape[0], self.models_output_df.values.shape[1]), dtype=object)
         for i in range(self.models_output_df.values.shape[0]):
+            truncated_numbers[i][0] = self.models_output_df.values[i][0]
             for j in range(1, self.models_output_df.values.shape[1]):
                 truncated_numbers[i][j] = self.truncate_number(self.models_output_df.values[i][j])
 
