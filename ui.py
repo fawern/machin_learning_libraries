@@ -218,8 +218,3 @@ class MlUI:
         close_button.pack(side='bottom', pady=50)
 
         self.root.mainloop()
-
-if __name__ == '__main__':
-    ml_ui = MlUI()
-    ml_ui.library_ui()
-

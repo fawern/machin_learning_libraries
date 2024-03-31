@@ -1,54 +1,60 @@
-# Machine Learning UI(User Interface)
+# Machine Learning UI (User Interface)
 
-I have a good news for you who don't know how to code but want to use
-machine learning models. I have created a friendly user interface for you.
-You can use the machine learning models without writing a single line of code. Just follow the steps below.
+Welcome to the Machine Learning UI, a user-friendly interface for utilizing machine learning models without any coding knowledge required.
 
-## Steps to use the Machine Learning UI
+## Usage Instructions
 
-1. Clone the repository
+### Step 1: Setup
 
-```bash
-git clone https//:github.com/fawern/machine_learning_UI.git
-```
+1. **Clone the repository**:
 
-3. Go to the machine_learning_UI directory
+   ```bash
+   git clone https://github.com/fawern/machine_learning_UI.git
+   ```
 
-```bash
-cd machine_learning_UI
-```
+2. **Navigate to the directory**:
 
-3. Install the required libraries
+   ```bash
+   cd machine_learning_UI
+   ```
 
-```bash
-pip install -r requirements.txt
-```
+3. **Install required libraries**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-4. Run the app
+### Step 2: Run the App
 
-```bash
-python app.py
-```
+4. **Start the application**:
 
-#### When you run the app, you will see the following screen.
+   ```bash
+   python app.py
+   ```
 
-![before](./imgs/img_1.png)
+   ![App Interface](./imgs/img_1.png)
 
-5. Upload the dataset.
+### Step 3: Data Preparation
 
-   - Click the UPLOAD .csv button and upload the dataset as shown below.
-     ![before](./imgs/img_2.png)
+5. **Upload your dataset**:
 
-6. Select the target column
+   - Click the "UPLOAD .csv" button to select and upload your dataset.
+     ![Upload Dataset](./imgs/img_2.png)
 
-   - Choose the target column from the dropdown list as shown below.
-     ![before](./imgs/img_3.png)
+6. **Select the target column**:
+   - Choose the target column from the dropdown list.
+     ![Select Target Column](./imgs/img_3.png)
 
-7. Select the model
+### Step 4: Model Selection and Training
 
-   - Choose the model from the dropdown list as shown below.
-     ![before](./imgs/img_4.png)
+7. **Choose the model**:
 
-8. Click the Train button
-   - Click the Train button to train the model and see the results as shown below.
-     ![before](./imgs/img_5.png)
+   - Select the machine learning model from the dropdown list.
+     ![Select Model](./imgs/img_4.png)
+
+8. **Train the model-View Results**:
+
+   - Click the "Train" button to initiate the training process.
+   - Once the training is complete, the results will be displayed on the screen.
+
+   ![Train Model](./imgs/img_5.png)
+   [Training Results](./imgs/img_6.png)
