@@ -57,4 +57,4 @@ Welcome to the Machine Learning UI, a user-friendly interface for utilizing mach
    - Once the training is complete, the results will be displayed on the screen.
 
    ![Train Model](./imgs/img_5.png)
-   [Training Results](./imgs/img_6.png)
+   ![Training Results](./imgs/img_6.png)
