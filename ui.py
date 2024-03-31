@@ -85,7 +85,7 @@ class MlUI:
 
         values.append(self.models_output_df.columns)
         truncated_numbers = np.zeros((self.models_output_df.values.shape[0], self.models_output_df.values.shape[1]), dtype=object)
-
+        print(self.models_output_df.values)
         truncated_numbers = np.zeros((self.models_output_df.values.shape[0], self.models_output_df.values.shape[1]), dtype=object)
         for i in range(self.models_output_df.values.shape[0]):
             truncated_numbers[i][0] = self.models_output_df.values[i][0]
@@ -104,9 +104,9 @@ class MlUI:
             values=values, header_color="#204261")
         table.pack(expand=True, fill="both", padx=20, pady=20)
 
-    def clean_button_click(self):
-        self.on_close_click()
-        self.library_ui()
+    # def clean_button_click(self):
+    #     self.on_close_click()
+    #     self.library_ui()
 
     def on_close_click(self):
         self.root.destroy()
@@ -178,24 +178,24 @@ class MlUI:
         )
         train_button.pack(pady=10)
 
-        clean_button = tk.Button(
-            self.left_container,
-            text = 'Clean',
-            command = self.clean_button_click,
-            background = '#ff0000', # Background color when not hovered
-            foreground = self.colour4, # Text color
-            activebackground = '#ff6666', # Background color when hovered/clicked
-            activeforeground = self.colour4, # Text color when hovered/clicked
-            highlightthickness = 2, # Thickness of the highlight border
-            highlightbackground = '#b30000', # Highlight border color
-            highlightcolor = 'WHITE', # Highlight color
-            width = 6,
-            height = 1,
-            border = 0,
-            cursor = 'hand1',
-            font = ('Arial', 16, 'bold')
-        )
-        clean_button.pack(pady=10)
+        # clean_button = tk.Button(
+        #     self.left_container,
+        #     text = 'Clean',
+        #     command = self.clean_button_click,
+        #     background = '#ff0000', # Background color when not hovered
+        #     foreground = self.colour4, # Text color
+        #     activebackground = '#ff6666', # Background color when hovered/clicked
+        #     activeforeground = self.colour4, # Text color when hovered/clicked
+        #     highlightthickness = 2, # Thickness of the highlight border
+        #     highlightbackground = '#b30000', # Highlight border color
+        #     highlightcolor = 'WHITE', # Highlight color
+        #     width = 6,
+        #     height = 1,
+        #     border = 0,
+        #     cursor = 'hand1',
+        #     font = ('Arial', 16, 'bold')
+        # )
+        # clean_button.pack(pady=10)
 
 
         close_button = tk.Button(
@@ -218,3 +218,8 @@ class MlUI:
         close_button.pack(side='bottom', pady=50)
 
         self.root.mainloop()
+
+if __name__ == '__main__':
+    ml_ui = MlUI()
+    ml_ui.library_ui()
+
