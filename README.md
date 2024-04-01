@@ -51,10 +51,19 @@ Welcome to the Machine Learning UI, a user-friendly interface for utilizing mach
    - Select the machine learning model from the dropdown list.
      ![Select Model](./imgs/img_4.png)
 
-8. **Train the model-View Results**:
+8. **Set the Scaler**:
+
+   - Choose the scaler from the dropdown list.
+     ![Select Scaler](./imgs/img_5.png)
+
+9. **Train the model-View Results**:
 
    - Click the "Train" button to initiate the training process.
    - Once the training is complete, the results will be displayed on the screen.
 
-   ![Train Model](./imgs/img_5.png)
-   ![Training Results](./imgs/img_6.png)
+   ![Train Model](./imgs/img_6.png)
+   ![Training Results](./imgs/img_7.png)
+
+### Video Tutorial
+
+![Watch the video](./imgs/video.mp4)
