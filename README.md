@@ -66,8 +66,6 @@ Welcome to the Machine Learning UI, a user-friendly interface for utilizing mach
 
 ### Video Tutorial
 
-![Watch the video](./imgs/video.mp4)
+For a detailed walkthrough of the Machine Learning UI, watch my video tutorial:
 
-<video src=./imgs/video.mp4 controls>
-  Your browser does not support the video tag.
-</video>
+[![Watch the video]](./imgs/video.mp4)
