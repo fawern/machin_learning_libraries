@@ -68,6 +68,6 @@ Welcome to the Machine Learning UI, a user-friendly interface for utilizing mach
 
 ![Watch the video](./imgs/video.mp4)
 
-<video src="./imgs/video.mp4" controls>
+<video src=./imgs/video.mp4 controls>
   Your browser does not support the video tag.
 </video>
