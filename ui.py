@@ -6,6 +6,7 @@ import CTkTable
 import numpy as np
 import pandas as pd 
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import classification as cls_
 import regression
 
@@ -18,7 +19,7 @@ class MlUI:
 
         self.root = None
         self.left_container = None
-        self.target_combobox = None
+        self.scale_data_combobox = None
 
         # Upload file button
         self.file_path = None
@@ -48,6 +49,14 @@ class MlUI:
             X = df.drop(columns=[target_col]).values
             y = df[target_col]
 
+            if self.scale_data_combobox.get() == 'StandardScaler':
+                scaler = StandardScaler()
+                X = scaler.fit_transform(X)
+                
+            elif self.scale_data_combobox.get() == 'MinMaxScaler':
+                scaler = MinMaxScaler()
+                X = scaler.fit_transform(X)
+            
             X_train, X_test, y_train, y_test = train_test_split(
                 X, y, test_size=.2, random_state=42
             )       
@@ -61,6 +70,14 @@ class MlUI:
             X = df.drop(columns=[target_col]).values
             y = df[target_col]
 
+            if self.scale_data_combobox.get() == 'StandardScaler':
+                scaler = StandardScaler()
+                X = scaler.fit_transform(X)
+            
+            elif self.scale_data_combobox.get() == 'MinMaxScaler':
+                scaler = MinMaxScaler()
+                X = scaler.fit_transform(X)
+                
             X_train, X_test, y_train, y_test = train_test_split(
                 X, y, test_size=.2, random_state=42
             )       
@@ -85,7 +102,6 @@ class MlUI:
 
         values.append(self.models_output_df.columns)
         truncated_numbers = np.zeros((self.models_output_df.values.shape[0], self.models_output_df.values.shape[1]), dtype=object)
-        print(self.models_output_df.values)
         truncated_numbers = np.zeros((self.models_output_df.values.shape[0], self.models_output_df.values.shape[1]), dtype=object)
         for i in range(self.models_output_df.values.shape[0]):
             truncated_numbers[i][0] = self.models_output_df.values[i][0]
@@ -150,7 +166,6 @@ class MlUI:
         self.target_combobox.pack(padx=20, pady=10)
 
         model_type_var = customtkinter.StringVar(value="Machine Learning Type")
-
         combobox = customtkinter.CTkComboBox(
             master = self.left_container,
             width = 170,     
@@ -158,6 +173,16 @@ class MlUI:
             variable  =model_type_var
         )
         combobox.pack(padx=20, pady=10)
+
+        # Scale data combo box
+        scale_data_var = customtkinter.StringVar(value="Scale Data")
+        self.scale_data_combobox = customtkinter.CTkComboBox(
+            master = self.left_container,
+            width = 170,
+            values = ["StandardScaler", 'MinMaxScaler'],
+            variable = scale_data_var
+        )
+        self.scale_data_combobox.pack(padx=20, pady=10)
 
         train_button = tk.Button(
             self.left_container,
@@ -177,26 +202,6 @@ class MlUI:
             font = ('Arial', 16, 'bold')
         )
         train_button.pack(pady=10)
-
-        # clean_button = tk.Button(
-        #     self.left_container,
-        #     text = 'Clean',
-        #     command = self.clean_button_click,
-        #     background = '#ff0000', # Background color when not hovered
-        #     foreground = self.colour4, # Text color
-        #     activebackground = '#ff6666', # Background color when hovered/clicked
-        #     activeforeground = self.colour4, # Text color when hovered/clicked
-        #     highlightthickness = 2, # Thickness of the highlight border
-        #     highlightbackground = '#b30000', # Highlight border color
-        #     highlightcolor = 'WHITE', # Highlight color
-        #     width = 6,
-        #     height = 1,
-        #     border = 0,
-        #     cursor = 'hand1',
-        #     font = ('Arial', 16, 'bold')
-        # )
-        # clean_button.pack(pady=10)
-
 
         close_button = tk.Button(
             self.left_container,
