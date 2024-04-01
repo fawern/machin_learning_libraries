@@ -68,4 +68,4 @@ Welcome to the Machine Learning UI, a user-friendly interface for utilizing mach
 
 For a detailed walkthrough of the Machine Learning UI, watch my video tutorial:
 
-[![Watch the video]](./imgs/video.mp4)
+![Watch the video](./imgs/video.mp4](https://github.com/fawern/machine_learning_UI/assets/121627868/815d70d4-f5c9-4e49-be1b-abcebf96e9f9)
