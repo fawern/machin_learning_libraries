@@ -29,6 +29,8 @@ class MlUI:
 
         # Train model button
         self.models_output_df = None
+        self.checkboxes = None
+        # self.combobox = None
 
     def upload_button_click(self):
         self.file_path = filedialog.askopenfilename(title='Select a CSV file !!!')
@@ -42,10 +44,11 @@ class MlUI:
         else:
             messagebox.showinfo(title='Not found error', message="No file selected")
 
-    def train_button_click(self, selected_model):
+    def train_button_click(self):
+        selected_models = [option.strip() for option, checkbox in self.checkboxes.items() if checkbox.get()]
         target_col = self.target_combobox.get()
 
-        if selected_model == 'Classification':
+        if self.combobox.get() == 'Classification':
             df = pd.read_csv(self.file_path)
             X = df.drop(columns=[target_col]).values
             y = df[target_col]
@@ -61,12 +64,11 @@ class MlUI:
             X_train, X_test, y_train, y_test = train_test_split(
                 X, y, test_size=.2, random_state=42
             )       
-
-            self.models_output_df = cls_.classification_models(X_train, X_test, y_train, y_test)[0]
-
+            self.models_output_df = cls_.classification_models(X_train, X_test, y_train, y_test, selected_models)[0]
+            
             self.show_model_output()
 
-        elif selected_model == 'Regression':
+        elif self.combobox.get() == 'Regression':
             df = pd.read_csv(self.file_path)
             X = df.drop(columns=[target_col]).values
             y = df[target_col]
@@ -104,6 +106,7 @@ class MlUI:
         values.append(self.models_output_df.columns)
         truncated_numbers = np.zeros((self.models_output_df.values.shape[0], self.models_output_df.values.shape[1]), dtype=object)
         truncated_numbers = np.zeros((self.models_output_df.values.shape[0], self.models_output_df.values.shape[1]), dtype=object)
+        
         for i in range(self.models_output_df.values.shape[0]):
             truncated_numbers[i][0] = self.models_output_df.values[i][0]
             for j in range(1, self.models_output_df.values.shape[1]):
@@ -128,6 +131,9 @@ class MlUI:
     def on_close_click(self):
         self.root.destroy()
 
+    def get_selected_ml_type(self):
+        return self.combobox.get()
+        
     def library_ui(self):
         self.root = customtkinter.CTk()
         self.root.title("Machine Learnings Library")
@@ -167,13 +173,13 @@ class MlUI:
         self.target_combobox.pack(padx=20, pady=10)
 
         model_type_var = customtkinter.StringVar(value="Machine Learning Type")
-        combobox = customtkinter.CTkComboBox(
+        self.combobox = customtkinter.CTkComboBox(
             master = self.left_container,
-            width = 170,     
+            width = 170,
             values = ['Classification', 'Regression'],
             variable  =model_type_var
         )
-        combobox.pack(padx=20, pady=10)
+        self.combobox.pack(padx=20, pady=10)
 
         # Scale data combo box
         scale_data_var = customtkinter.StringVar(value="Scale Data")
@@ -186,59 +192,80 @@ class MlUI:
         self.scale_data_combobox.pack(padx=20, pady=10)
 
         #! ---------------- 
-
         def toggle_dropdown():
             dropdown_frame.pack_forget() if dropdown_frame.winfo_ismapped() else dropdown_frame.pack()
 
         dropdown_frame = customtkinter.CTkFrame(self.left_container, width=50, height=50)
         dropdown_frame.pack(padx=10, pady=10)
-
+        dropdown_frame.pack_forget()
+        
         selected_label = customtkinter.CTkLabel(self.left_container, text="")
         selected_label.pack()
 
-        toggle_dropdown()
+        self.checkboxes = {}
+        ml_models = []
 
-        checkboxes = {}
-        ml_models = [
-            'LogisticRegression',
-            'KNeighborsClassifier',
-            'DecisionTreeClassifier',
-            # 'SVC',
-            # 'RandomForestClassifier',
-            # 'GradientBoostingClassifier',
-            # 'XGBClassifier',
-            # 'XGBRFClassifier',
-            # 'LGBMClassifier',
-            # 'CatBoostClassifier',
-            # 'GaussianNB',
-            # 'MLPClassifier'
+        if self.get_selected_ml_type() == 'Classification':
+            ml_models = [
+                'LogisticRegression',
+                'KNeighborsClassifier',
+                'DecisionTreeClassifier',
+                'SVC',
+                'RandomForestClassifier',
+                'GradientBoostingClassifier',
+                'XGBClassifier',
+                'XGBRFClassifier',
+                'LGBMClassifier',
+                'CatBoostClassifier',
+                'GaussianNB',
+                'MLPClassifier',
             ]
+        
+        elif self.get_selected_ml_type() == 'Regression':
+            ml_models = [
+                'LinearRegression',
+                'Ridge',
+                'Lasso',
+                'ElasticNet',
+                'DecisionTreeRegressor',
+                'RandomForestRegressor',
+                'GradientBoostingRegressor',
+                'XGBRegressor',
+                'XGBRFRegressor',
+                'LGBMRegressor',
+                'CatBoostRegressor',
+                'MLPRegressor',
+            ]
+
+        max_len_model = max([len(model) for model in ml_models])
+
+        for i in range(len(ml_models)):
+            ml_models[i] = ml_models[i] + " " * (max_len_model - len(ml_models[i]))
+
         for option in ml_models:
             checkbox = customtkinter.CTkCheckBox(dropdown_frame, text=option)
             checkbox.pack()
-            checkboxes[option] = checkbox
+            self.checkboxes[option] = checkbox
 
         dropdown_button = customtkinter.CTkButton(self.left_container, text="▼", command=toggle_dropdown)
         dropdown_button.pack()
 
         def update_selected_label():
-            selected = [option for option, checkbox in checkboxes.items() if checkbox.get()]
+            selected = [option for option, checkbox in self.checkboxes.items() if checkbox.get()]
             selected_text = ", ".join(selected) if selected else "No selection"
             selected_label.configure(text=selected_text)
         
-        for checkbox in checkboxes.values():
+        for checkbox in self.checkboxes.values():
             checkbox.configure(command=update_selected_label)
         
         update_selected_label()
-
-        selected_models = [option for option, checkbox in checkboxes.items() if checkbox.get()]
 
         #! ----------------
 
         train_button = tk.Button(
             self.left_container,
             text = 'Train Models',
-            command = lambda : self.train_button_click(combobox.get()),
+            command = self.train_button_click,
             background = self.colour2, # Background color when not hovered
             foreground = self.colour4, # Text color
             activebackground = self.colour3, # Background color when hovered/clicked

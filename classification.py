@@ -37,7 +37,7 @@ class Classification:
         return self.y_pred, accuracy_score(self.test_target, self.y_pred)
 
 
-def classification_models(x_train, x_test, y_train, y_test):
+def classification_models(x_train, x_test, y_train, y_test, selected_models):
     models = [
         LogisticRegression(max_iter=990),
         KNeighborsClassifier(),
@@ -52,6 +52,7 @@ def classification_models(x_train, x_test, y_train, y_test):
         GaussianNB(),
         MLPClassifier(),
     ]
+    models = [model for model in models if model.__class__.__name__ in selected_models]
 
     models_output_list = []
 
