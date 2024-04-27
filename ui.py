@@ -11,6 +11,7 @@ import classification as cls_
 import regression
 
 class MlUI:
+
     def __init__(self):
         self.colour1 = '#161616'
         self.colour2 = '#05d7ff' # Default button background color
@@ -184,6 +185,56 @@ class MlUI:
         )
         self.scale_data_combobox.pack(padx=20, pady=10)
 
+        #! ---------------- 
+
+        def toggle_dropdown():
+            dropdown_frame.pack_forget() if dropdown_frame.winfo_ismapped() else dropdown_frame.pack()
+
+        dropdown_frame = customtkinter.CTkFrame(self.left_container, width=50, height=50)
+        dropdown_frame.pack(padx=10, pady=10)
+
+        selected_label = customtkinter.CTkLabel(self.left_container, text="")
+        selected_label.pack()
+
+        toggle_dropdown()
+
+        checkboxes = {}
+        ml_models = [
+            'LogisticRegression',
+            'KNeighborsClassifier',
+            'DecisionTreeClassifier',
+            # 'SVC',
+            # 'RandomForestClassifier',
+            # 'GradientBoostingClassifier',
+            # 'XGBClassifier',
+            # 'XGBRFClassifier',
+            # 'LGBMClassifier',
+            # 'CatBoostClassifier',
+            # 'GaussianNB',
+            # 'MLPClassifier'
+            ]
+        for option in ml_models:
+            checkbox = customtkinter.CTkCheckBox(dropdown_frame, text=option)
+            checkbox.pack()
+            checkboxes[option] = checkbox
+
+        dropdown_button = customtkinter.CTkButton(self.left_container, text="▼", command=toggle_dropdown)
+        dropdown_button.pack()
+
+        def update_selected_label():
+            selected = [option for option, checkbox in checkboxes.items() if checkbox.get()]
+            selected_text = ", ".join(selected) if selected else "No selection"
+            selected_label.configure(text=selected_text)
+        
+        for checkbox in checkboxes.values():
+            checkbox.configure(command=update_selected_label)
+        
+        update_selected_label()
+
+        selected_models = [option for option, checkbox in checkboxes.items() if checkbox.get()]
+
+        #! ----------------
+
         train_button = tk.Button(
             self.left_container,
             text = 'Train Models',
@@ -223,3 +274,6 @@ class MlUI:
         close_button.pack(side='bottom', pady=50)
 
         self.root.mainloop()
+
+if __name__ == '__main__':
+    MlUI().library_ui()
