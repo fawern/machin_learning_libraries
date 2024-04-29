@@ -37,7 +37,7 @@ class Classification:
         return self.y_pred, accuracy_score(self.test_target, self.y_pred)
 
 
-def classification_models(x_train, x_test, y_train, y_test, selected_models):
+def classification_models(x_train, x_test, y_train, y_test, selected_models=None):
     models = [
         LogisticRegression(max_iter=990),
         KNeighborsClassifier(),
@@ -52,7 +52,11 @@ def classification_models(x_train, x_test, y_train, y_test, selected_models):
         GaussianNB(),
         MLPClassifier(),
     ]
-    models = [model for model in models if model.__class__.__name__ in selected_models]
+
+    if selected_models:
+        models = selected_models
+    else:
+        models = models
 
     models_output_list = []
 
@@ -83,4 +87,4 @@ def classification_models(x_train, x_test, y_train, y_test, selected_models):
     highest_rcs_output = models_output_df.loc[models_output_df['Recall Score'].idxmax()]
     highest_rocs_output = models_output_df.loc[models_output_df['Roc Auc Score'].idxmax()]
 
-    return models_output_df, highest_acs_output, highest_f1s_output, highest_prs_output, highest_rcs_output, highest_rocs_output
+    return models_output_df, highest_acs_output, highest_prs_output, highest_f1s_output, highest_rcs_output, highest_rocs_output
